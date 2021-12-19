@@ -11,6 +11,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+    # We usually would not provision servers through this kind of pipeline,
+    # but we add this here just because.
     - name: Invoke server provision hook
       uses: distributhor/workflow-webhook@v1
       env:
@@ -18,10 +20,11 @@ jobs:
         webhook_secret: ${{ secrets.WEBHOOK_SERVER_PROVISION_KEY }}
 
     # We wait some seconds to ensure provisioned server already has an IP
-    # This step and above, have no real place in a real production environment
+    # As above, this would have no place in a real production environment.
     - name: Wait some seconds
       run: sleep 25
 
+    # We deploy the website
     - name: Invoke website deployment hook
       uses: distributhor/workflow-webhook@v1
       env:
