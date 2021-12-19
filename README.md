@@ -12,3 +12,4 @@ The release pipeline should be adapted to the team/project workflow, since there
 * Once QA gives the OK, the draft release can be published, which will trigger a prod deployment using Tower. The last step can be automated, but a manual last step gives control on the deployment, which is desirable in some instances.
 
 This pipeline also works for many kind of deployments, adding to the actions steps to build docker images or generate artifacts, as well as uploading everything to public or private registries.
+ 
