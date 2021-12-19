@@ -1,4 +1,4 @@
-# my-cv-in-html
+# My CV in HTML
 
 This repository contains an unupdated version of my CV, exported to HTML from Google Docs. It is used to test and showcase CI/CD pipelines and other stuff.
 
