@@ -1,0 +1,25 @@
+# This action triggers Ansible deploy playbook in response
+# to a new release being created. It uses Ansible Tower webhooks.
+name: Deploy website on release publication
+
+'on':
+  release:
+    types: 
+      - published
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Invoke server provision hook
+      uses: distributhor/workflow-webhook@v1
+      env:
+        webhook_url: ${{ secrets.WEBHOOK_SERVER_PROVISION_URL }}
+        webhook_secret: ${{ secrets.WEBHOOK_SERVER_PROVISION_KEY }}
+
+    - name: Invoke website deployment hook
+      uses: distributhor/workflow-webhook@v1
+      env:
+        webhook_type: 'json-extended'
+        webhook_url: ${{ secrets.WEBHOOK_WEB_DEPLOY_URL }}
+        webhook_secret: ${{ secrets.WEBHOOK_WEB_DEPLOY_KEY }}

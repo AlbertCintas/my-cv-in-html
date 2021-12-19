@@ -1,0 +1,28 @@
+# After a push to main branch, a new release is automatically created.
+# The release is tagged with the date-time of the push.
+# Ansible Tower will get this tag via webhooks.
+name: Create release tag on push to 'main'
+
+'on':
+  push:
+    branches:
+      - main
+
+jobs:
+  create-release-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Create date release tag
+        id: create_tag
+        run: echo ::set-output name=VERSION::$(echo $(date '+%Y.%m.%d-%H%M'))   
+      - name: Release
+        uses: softprops/action-gh-release@v0.1.14
+        with:
+          name: ${{ steps.create_tag.outputs.VERSION }}
+          tag_name: v${{ steps.create_tag.outputs.VERSION }}
+          body: ${{ github.event.head_commit.message }}
+          target_commitish: main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
