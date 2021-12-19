@@ -17,6 +17,11 @@ jobs:
         webhook_url: ${{ secrets.WEBHOOK_SERVER_PROVISION_URL }}
         webhook_secret: ${{ secrets.WEBHOOK_SERVER_PROVISION_KEY }}
 
+    # We wait some seconds to ensure provisioned server already has an IP
+    # This step and above, have no real place in a real production environment
+    - name: Wait some seconds
+      run: sleep 25
+
     - name: Invoke website deployment hook
       uses: distributhor/workflow-webhook@v1
       env:
